@@ -5,7 +5,7 @@
  [![github version](https://img.shields.io/github/release/nhn/toast-ui.react-image-editor.svg)](https://github.com/nhn/toast-ui.react-image-editor/releases/latest)
 [![npm version](https://img.shields.io/npm/v/@toast-ui/react-image-editor.svg)](https://www.npmjs.com/package/@toast-ui/react-image-editor)
 [![license](https://img.shields.io/github/license/nhn/toast-ui.vue-image-editor.svg)](https://github.com/nhn/toast-ui.react-image-editor/blob/master/LICENSE)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/nhn/toast-ui.react-image-editor/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
+[![PRs welcome](https://img.shieldsnpm install --no-save --no-optional.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/nhn/toast-ui.react-image-editor/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 [![code with hearth by NHN](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-NHN-ff1414.svg)](https://github.com/nhn)
 
 ## 🚩 Table of Contents

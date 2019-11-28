@@ -1,12 +1,11 @@
 import React from 'react';
-import {storiesOf} from '@storybook/react';
-
 import 'tui-image-editor/dist/tui-image-editor.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
 
 import ImageEditor from '../src/index';
+// import {storiesOf} from '@storybook/react';
 
-const stories = storiesOf('Toast UI ImageEditor', module);
+// const stories = storiesOf('Toast UI ImageEditor', module);
 
 const props = {
   includeUI: {
@@ -24,68 +23,63 @@ const props = {
   cssMaxHeight: 500
 };
 
-stories.add('Include default UI', () => <ImageEditor {...props} />);
+class Story extends React.Component {
+  ref = React.createRef();
 
-stories.add('Using Method', () => {
-  class Story extends React.Component {
-    ref = React.createRef();
+  imageEditor = null;
 
-    imageEditor = null;
+  componentDidMount() {
+    this.imageEditor = this.ref.current.getInstance();
+    // get the data from api and set to the editor. // get all the "type" match variable and load one by one onto the editor.
+    window.setTimeout(() => {
+      // check for every object and according to it set the function..... eg addShape for square, rect. addImage for image.....
+      this.imageEditor.addShape('rect', {
+        id: 100,
+        fill: 'red',
+        stroke: 'blue',
+        strokeWidth: 3,
+        width: 100,
+        height: 200,
+        left: 10,
+        top: 10,
+        isRegular: true
+      });
 
-    componentDidMount() {
-      this.imageEditor = this.ref.current.getInstance();
-    }
 
-    flipImageByAxis(isXAxis) {
-      this.imageEditor[isXAxis ? 'flipX' : 'flipY']()
-        .then((status) => {
-          console.log('flipX: ', status.flipX);
-          console.log('flipY: ', status.flipY);
-          console.log('angle: ', status.angle);
-        })
-        ['catch']((message) => {
-          console.log('error: ', message);
-        });
-    }
-
-    render() {
-      return (
-        <>
-          <ImageEditor ref={this.ref} {...props} />
-          <button
-            onClick={() => {
-              this.flipImageByAxis(true);
-            }}
-          >
-            Flip-X!
-          </button>
-          <button
-            onClick={() => {
-              this.flipImageByAxis(false);
-            }}
-          >
-            Flip-Y!
-          </button>
-        </>
-      );
-    }
+      // let getPosition = this.imageEditor.getObjectPosition(100, 'left', 'top');
+      // console.log(getPosition, "getPosition")
+    }, 2000);
   }
 
-  return <Story />;
-});
+  getTriangle() {
+    // this.imageEditor.addShape('rect', {
+    //   fill: 'red',
+    //   stroke: 'blue',
+    //   strokeWidth: 3,
+    //   width: 100,
+    //   height: 200,
+    //   left: 10,
+    //   top: 10,
+    //   isRegular: true
+    // });
+  }
 
-stories.add('Events', () => {
-  class Story2 extends React.Component {
-    ref = React.createRef();
+  flipImageByAxis(isXAxis) {
+    this.imageEditor[isXAxis ? 'flipX' : 'flipY']()
+      .then((status) => {
+        console.log('flipX: ', status.flipX);
+        console.log('flipY: ', status.flipY);
+        console.log('angle: ', status.angle);
+      })
+      ['catch']((message) => {
+      console.log('error: ', message);
+    });
+  }
 
-    imageEditor = null;
-
-    componentDidMount() {
-      this.imageEditor = this.ref.current.getInstance();
-    }
-
-    render() {
-      return (
+  render() {
+    // on anything change or added update we have to update the json side by side.......
+    return (
+      <>
         <ImageEditor
           ref={this.ref}
           {...props}
@@ -99,10 +93,40 @@ stories.add('Events', () => {
             console.log(`text position on canvas(x, y): ${ox}px, ${oy}px`);
             console.log(`text position on brwoser(x, y): ${cx}px, ${cy}px`);
           }}
+          onObjectMoved={(props) => { // PARTICULAR OBJECT CHANGED AND DETAILS...
+            alert('object moved');
+            console.log(props, 'object moved');
+            console.log(props.type);
+          }}
+          onUndoStackChanged={(length) => {
+            console.log(length, 'onUndoStackChanged');
+          }}
+          onObjectActivated={(props) => {
+            console.log('object activated...');
+            console.log(props);
+            console.log(props.type);
+            console.log(props.id);
+          }}
         />
-      );
-    }
+        <button
+          onClick={this.getTriangle.bind(this)}>
+          get me rect
+        </button>
+        <button
+          onClick={() => {
+            this.flipImageByAxis(true);
+          }}
+        >
+          Flip-X!
+        </button>
+        <button
+          onClick={() => {
+            this.flipImageByAxis(false);
+          }}
+        >
+          Flip-Y!
+        </button>
+      </>
+    );
   }
-
-  return <Story2 />;
-});
+}
