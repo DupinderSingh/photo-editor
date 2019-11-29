@@ -15,6 +15,14 @@ const props = {
       path: 'img/sampleImage2.png',
       name: 'sampleImage2'
     },
+    theme: {
+      'common.bi.image': 'https://uicdn.toast.com/toastui/img/tui-image-editor-bi.png',
+      'common.bisize.width': '251px',
+      'common.bisize.height': '21px',
+      'common.backgroundImage': 'none',
+      'common.backgroundColor': '#1e1e1e',
+      'common.border': '0px'
+    },
     initMenu: 'shape',
     uiSize: {
       height: '700px',
@@ -187,14 +195,14 @@ stories.add('Events', () => {
                 console.log('new : ' + result.newWidth + ', ' + result.newHeight);
               });
             case 'png':
-              console.log(target.value, "path to image....");
+              console.log(target.value, 'path to image....');
               return this.imageEditor.addImageObject(target.value).then(objectProps => {
                 console.log(objectProps.id);
               });
-              // return this.imageEditor.loadImageFromFile(photo).then(result => {
-              //   console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
-              //   console.log('new : ' + result.newWidth + ', ' + result.newHeight);
-              // });
+            // return this.imageEditor.loadImageFromFile(photo).then(result => {
+            //   console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
+            //   console.log('new : ' + result.newWidth + ', ' + result.newHeight);
+            // });
             default:
               alert('Only png, jpg, jpeg files supported.');
           }
@@ -209,8 +217,16 @@ stories.add('Events', () => {
             ref={this.ref}
             {...props}
             onMousedown={(event, originPointer) => {
-              console.log(event);
-              console.log(originPointer);
+              console.log(event, 'mousedown event');
+              console.log(originPointer, 'mousedown origin pointer');
+              if (this.imageEditor.hasFilter('colorFilter')) {
+                // get the filter details
+                console.log('It has the filter. Get now the filter properties......');
+                // this.imageEditor.applyFilter('colorFilter', {
+                //   x: parseInt(originPointer.x, 10),
+                //   y: parseInt(originPointer.y, 10)
+                // });
+              }
             }}
             onAddText={(pos) => {
               const {x: ox, y: oy} = pos.originPosition;
@@ -231,22 +247,31 @@ stories.add('Events', () => {
                 all_objects
               });
             }}
-            onUndoStackChanged={(length) => {
-              console.log(length, 'onUndoStackChanged');
+            onUndoStackChanged={(props) => {
+              console.log(props, 'onUndoStackChanged');
             }}
             onObjectActivated={(props) => {
+              // some cases like cropping the object we need to update the item here..
               console.log('object activated...');
               console.log(props);
               console.log(props.type);
               console.log(props.id);
               let all_objects = thi.state.all_objects;
-              all_objects.push(props);
+              if (props.type === 'cropZone') {
+                // for (let i in all_objects) {
+                //   if (all_objects[i].id === props.id) {
+                //     all_objects[i] = props;
+                //   }
+                // }
+              } else {
+                all_objects.push(props);
+              }
               thi.setState({
                 all_objects
               });
             }}
             onObjectScale={(props) => {
-              console.log(props, "object scaled...");
+              console.log(props, 'object scaled...');
             }}
           />
           <div>
