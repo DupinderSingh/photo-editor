@@ -5,6 +5,7 @@ import 'tui-image-editor/dist/tui-image-editor.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
 
 import ImageEditor from '../src/index';
+import {checkValidation} from '../src/actions/actionjs';
 
 const stories = storiesOf('Toast UI ImageEditor', module);
 
@@ -24,6 +25,8 @@ const props = {
   cssMaxHeight: 500
 };
 
+let thi = null;
+
 stories.add('Include default UI', () => <ImageEditor {...props} />);
 
 stories.add('Using Method', () => {
@@ -33,20 +36,30 @@ stories.add('Using Method', () => {
     imageEditor = null;
 
     componentDidMount() {
+      // id="tie-btn-mask"
+      thi = this;
       this.imageEditor = this.ref.current.getInstance();
       // get the data from api and set to the editor. // get all the "type" match variable and load one by one onto the editor.
       window.setTimeout(() => {
         // check for every object and according to it set the function..... eg addShape for square, rect. addImage for image.....
-        this.imageEditor.addShape('rect', {
-          id: 100,
-          fill: 'red',
-          stroke: 'blue',
-          strokeWidth: 3,
-          width: 100,
-          height: 200,
-          left: 10,
-          top: 10,
-          isRegular: true
+        // this.imageEditor.addShape('rect', {
+        //   id: 100,
+        //   fill: 'red',
+        //   stroke: 'blue',
+        //   strokeWidth: 3,
+        //   width: 100,
+        //   height: 200,
+        //   left: 10,
+        //   top: 10,
+        //   isRegular: true
+        // });
+
+        this.imageEditor.addImageObject('https://expresswriters.com/wp-content/uploads/2015/09/google-new-logo-1200x423.jpg').then(objectProps => {
+          // const props = this.imageEditor.getObjectProperties(objectProps.id);
+          // console.log(objectProps, "image>>>>>>>>>>>>>>... id>>>>>>>>>"+objectProps.id);
+
+          var position = this.imageEditor.getObjectPosition(objectProps.id);
+          console.log(position);
         });
 
 
@@ -66,6 +79,18 @@ stories.add('Using Method', () => {
       //   top: 10,
       //   isRegular: true
       // });
+    }
+
+    getImageObject() {
+      const all_objects = thi.state.all_objects;
+      for (let i in all_objects) {
+        if (all_objects[i].type === 'image') {
+          // const props = this.imageEditor.getObjectProperties(all_objects[i].id);
+          // console.log(props, "image>>>>>>>>>>>>>>... id>>>>>>>>>"+all_objects[i].id);
+          // var position = imageEditor.getObjectPosition(, 'left', 'top');
+          // console.log(position);
+        }
+      }
     }
 
     flipImageByAxis(isXAxis) {
@@ -102,12 +127,15 @@ stories.add('Using Method', () => {
           >
             Flip-Y!
           </button>
+          <button onClick={() => this.getImageObject.bind(this)}>
+            get image props
+          </button>
         </>
       );
     }
   }
 
-  return <Story />;
+  return <Story/>;
 });
 
 stories.add('Events', () => {
@@ -116,43 +144,125 @@ stories.add('Events', () => {
 
     imageEditor = null;
 
+    constructor(props) {
+      super(props);
+      this.state = {
+        all_objects: []
+      };
+    }
+
     componentDidMount() {
+      thi = this;
       this.imageEditor = this.ref.current.getInstance();
+      console.log(document.getElementById('tie-btn-mask'), 'mask');
+      // document.getElementById('tie-btn-mask').style.display = 'none';
+
+      this.imageEditor.startDrawingMode('FREE_DRAWING', {
+        width: 10,
+        color: 'rgba(255,0,0,0.5)'
+      });
+    }
+
+    uploadPic(e, removePic) {
+      e.preventDefault();
+      const target = e.target;
+      if (removePic) {
+        // createNotification("error", "we are working on it...");
+      } else {
+        checkValidation(e);
+        const photo = document.getElementById('change_img').files[0];
+        console.log(photo, 'photo....');
+        if (!!e.currentTarget.value.match(/\.(.+)$/)) {
+          const ext = e.currentTarget.value.match(/\.(.+)$/)[1];
+          // this.props.dispatch(changeProfileState(Object.assign(this.props.profile, {[target.name]: !!target.value ? target.value : this.props.profile.photo})));
+          switch (ext) {
+            case 'jpg':
+              return this.imageEditor.loadImageFromFile(photo).then(result => {
+                console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
+                console.log('new : ' + result.newWidth + ', ' + result.newHeight);
+              });
+            case 'jpeg':
+              return this.imageEditor.loadImageFromFile(photo).then(result => {
+                console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
+                console.log('new : ' + result.newWidth + ', ' + result.newHeight);
+              });
+            case 'png':
+              console.log(target.value, "path to image....");
+              return this.imageEditor.addImageObject(target.value).then(objectProps => {
+                console.log(objectProps.id);
+              });
+              // return this.imageEditor.loadImageFromFile(photo).then(result => {
+              //   console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
+              //   console.log('new : ' + result.newWidth + ', ' + result.newHeight);
+              // });
+            default:
+              alert('Only png, jpg, jpeg files supported.');
+          }
+        }
+      }
     }
 
     render() {
       return (
-        <ImageEditor
-          ref={this.ref}
-          {...props}
-          onMousedown={(event, originPointer) => {
-            console.log(event);
-            console.log(originPointer);
-          }}
-          onAddText={(pos) => {
-            const {x: ox, y: oy} = pos.originPosition;
-            const {x: cx, y: cy} = pos.clientPosition;
-            console.log(`text position on canvas(x, y): ${ox}px, ${oy}px`);
-            console.log(`text position on brwoser(x, y): ${cx}px, ${cy}px`);
-          }}
-          onObjectMoved={(props) => { // PARTICULAR OBJECT CHANGED AND DETAILS...
-            alert('object moved');
-            console.log(props, 'object moved');
-            console.log(props.type);
-          }}
-          onUndoStackChanged={(length) => {
-            console.log(length, 'onUndoStackChanged');
-          }}
-          onObjectActivated={(props) => {
-            console.log('object activated...');
-            console.log(props);
-            console.log(props.type);
-            console.log(props.id);
-          }}
-        />
+        <>
+          <ImageEditor
+            ref={this.ref}
+            {...props}
+            onMousedown={(event, originPointer) => {
+              console.log(event);
+              console.log(originPointer);
+            }}
+            onAddText={(pos) => {
+              const {x: ox, y: oy} = pos.originPosition;
+              const {x: cx, y: cy} = pos.clientPosition;
+              console.log(`text position on canvas(x, y): ${ox}px, ${oy}px`);
+              console.log(`text position on brwoser(x, y): ${cx}px, ${cy}px`);
+            }}
+            onObjectMoved={(props) => { // PARTICULAR OBJECT CHANGED AND DETAILS...
+              console.log(props, 'object moved');
+              console.log(props.type);
+              const all_objects = thi.state.all_objects;
+              for (let i in all_objects) {
+                if (all_objects[i].id === props.id) {
+                  all_objects[i] = props;
+                }
+              }
+              thi.setState({
+                all_objects
+              });
+            }}
+            onUndoStackChanged={(length) => {
+              console.log(length, 'onUndoStackChanged');
+            }}
+            onObjectActivated={(props) => {
+              console.log('object activated...');
+              console.log(props);
+              console.log(props.type);
+              console.log(props.id);
+              let all_objects = thi.state.all_objects;
+              all_objects.push(props);
+              thi.setState({
+                all_objects
+              });
+            }}
+            onObjectScale={(props) => {
+              console.log(props, "object scaled...");
+            }}
+          />
+          <div>
+            <input type="file" id="change_img" name="photo"
+                   onChange={(e) => this.uploadPic(e, false)}/>
+            <label htmlFor="change_img"
+                   className="outline_field_button">Upload image via file
+            </label>
+          </div>
+          <button>
+            Upload Image via link
+          </button>
+        </>
       );
     }
   }
 
-  return <Story2 />;
+  return <Story2/>;
 });
