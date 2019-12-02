@@ -22,11 +22,11 @@ const props = {
     },
     initMenu: 'shape',
     uiSize: {
-      height: '550px', // frame size
-      width: '600px'
+      height: '700px', // frame size
+      width: '1000px'
     }
   },
-  cssMaxWidth: 400, // image size
+  cssMaxWidth: 700, // image size
   cssMaxHeight: 500
 };
 
