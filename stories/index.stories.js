@@ -16,20 +16,17 @@ const props = {
       name: 'sampleImage2'
     },
     theme: {
-      'common.bi.image': 'https://uicdn.toast.com/toastui/img/tui-image-editor-bi.png',
-      'common.bisize.width': '251px',
-      'common.bisize.height': '21px',
       'common.backgroundImage': 'none',
       'common.backgroundColor': '#1e1e1e',
       'common.border': '0px'
     },
     initMenu: 'shape',
     uiSize: {
-      height: '700px',
-      width: '1000px'
+      height: '550px', // frame size
+      width: '600px'
     }
   },
-  cssMaxWidth: 700,
+  cssMaxWidth: 400, // image size
   cssMaxHeight: 500
 };
 
@@ -50,29 +47,40 @@ stories.add('Using Method', () => {
       // get the data from api and set to the editor. // get all the "type" match variable and load one by one onto the editor.
       window.setTimeout(() => {
         // check for every object and according to it set the function..... eg addShape for square, rect. addImage for image.....
-        // this.imageEditor.addShape('rect', {
-        //   id: 100,
-        //   fill: 'red',
-        //   stroke: 'blue',
-        //   strokeWidth: 3,
-        //   width: 100,
-        //   height: 200,
-        //   left: 10,
-        //   top: 10,
-        //   isRegular: true
-        // });
-
-        this.imageEditor.addImageObject('https://expresswriters.com/wp-content/uploads/2015/09/google-new-logo-1200x423.jpg').then(objectProps => {
-          // const props = this.imageEditor.getObjectProperties(objectProps.id);
-          // console.log(objectProps, "image>>>>>>>>>>>>>>... id>>>>>>>>>"+objectProps.id);
-
-          var position = this.imageEditor.getObjectPosition(objectProps.id);
-          console.log(position);
+        this.imageEditor.addShape('rect', {
+          id: 100,
+          fill: 'red',
+          stroke: 'blue',
+          strokeWidth: 3,
+          left: 361.4519145865762,
+          top: 608.8242590157134,
+          width: 132.37659746491698,
+          height: 160.17710639972515,
+          isRegular: true
         });
+
+        // this.imageEditor.addImageObject('https://expresswriters.com/wp-content/uploads/2015/09/google-new-logo-1200x423.jpg').then(objectProps => {
+        //   // const props = this.imageEditor.getObjectProperties(objectProps.id);
+        //   // console.log(objectProps, "image>>>>>>>>>>>>>>... id>>>>>>>>>"+objectProps.id);
+        //
+        //   var position = this.imageEditor.getObjectPosition(objectProps.id);
+        //   console.log(position);
+        // });
 
 
         // let getPosition = this.imageEditor.getObjectPosition(100, 'left', 'top');
         // console.log(getPosition, "getPosition")
+        console.log('we got triangl3e...');
+        // this.imageEditor.setDrawingShape('triangle', { // When resizing, the shape keep the 1:1 ratio
+        //   width: 100,
+        //   height: 100,
+        //   isRegular: true
+        // });
+        console.log(this.imageEditor, 'imageeditor..');
+        this.imageEditor.startDrawingMode('FREE_DRAWING', {
+          width: 10,
+          color: 'rgba(255,0,0,0.5)'
+        });
       }, 2000);
     }
 
@@ -114,6 +122,16 @@ stories.add('Using Method', () => {
     }
 
     render() {
+      // resizing the editor...
+      // // Change the image size and ui size, and change the affected ui state together.
+      // imageEditor.ui.resizeEditor({
+      //   imageSize: {oldWidth: 100, oldHeight: 100, newWidth: 700, newHeight: 700},
+      //   uiSize: {width: 1000, height: 1000}
+      // });
+      //
+      // // Apply the ui state while preserving the previous attribute (for example, if responsive UI)
+      // imageEditor.ui.resizeEditor();
+
       return (
         <>
           <ImageEditor ref={this.ref} {...props} />
@@ -162,13 +180,60 @@ stories.add('Events', () => {
     componentDidMount() {
       thi = this;
       this.imageEditor = this.ref.current.getInstance();
+      console.log(document.getElementsByClassName('tui-image-editor-header-logo')[0], 'textt');
+      document.getElementsByClassName('tui-image-editor-header-logo')[0].style.display = 'none';
       console.log(document.getElementById('tie-btn-mask'), 'mask');
       // document.getElementById('tie-btn-mask').style.display = 'none';
-
       this.imageEditor.startDrawingMode('FREE_DRAWING', {
         width: 10,
         color: 'rgba(255,0,0,0.5)'
       });
+
+      console.log('draw triangle..');
+      this.imageEditor.setDrawingShape('triangle', { // When resizing, the shape keep the 1:1 ratio
+        width: 100,
+        height: 100,
+        isRegular: true
+      });
+
+      window.setTimeout(() => {
+        // const imageWidth = 400;
+        // const imageHeight = 500;
+        const imageWidth = 132.37659746491698;
+        const imageHeight = 160.17710639972515;
+        const frameWidth = 600;
+        const frameHeight = 550;
+
+        const widthRatioFrameWrtImage = imageWidth / frameWidth;
+        const heightRatioFrameWrtImage = imageHeight / frameHeight;
+        console.log((Math.floor(widthRatioFrameWrtImage * 100) / 100), (Math.floor(heightRatioFrameWrtImage * 100) / 100), 'frame ratio wrt image....');
+
+        // getting the centered position...... from image
+
+        // y coordinates = topHeight + (imageHeight / 2);
+        // x coordinates = leftWidth + (imageWidth / 2);
+
+        // const imageLeft = this.imageEditor._graphics.canvasImage.left;
+        // const imageTop = this.imageEditor._graphics.canvasImage.top;
+        const imageLeft = 361.4519145865762;
+        const imageTop = 608.8242590157134;
+
+        console.log(this.imageEditor._graphics, 'graphics....');
+        const imageCenterYCordinates = imageTop + (imageHeight / 2);
+        const imageCenterXCordinates = imageLeft + (imageWidth / 2);
+
+        const centerCordinatesFromCenterOfImage = imageCenterXCordinates / imageCenterYCordinates;
+        console.log((Math.floor(centerCordinatesFromCenterOfImage * 100) / 100), 'center coordinates from image...');
+
+        // ---------------------------------------------------------------
+        // getting the centered position...... from frame
+
+        const frameCenterYCordinates = imageCenterYCordinates / frameHeight;
+        const frameCenterXCordinates = imageCenterXCordinates / frameWidth;
+
+        console.log((Math.floor(frameCenterXCordinates * 100) / 100), (Math.floor(frameCenterYCordinates * 100) / 100), 'center coordinates from frame...');
+        console.log(this.imageEditor.getCanvasSize(), 'get canvas size....');
+      }, 2000);
     }
 
     uploadPic(e, removePic) {
@@ -219,14 +284,7 @@ stories.add('Events', () => {
             onMousedown={(event, originPointer) => {
               console.log(event, 'mousedown event');
               console.log(originPointer, 'mousedown origin pointer');
-              if (this.imageEditor.hasFilter('colorFilter')) {
-                // get the filter details
-                console.log('It has the filter. Get now the filter properties......');
-                // this.imageEditor.applyFilter('colorFilter', {
-                //   x: parseInt(originPointer.x, 10),
-                //   y: parseInt(originPointer.y, 10)
-                // });
-              }
+              console.log(this.imageEditor, 'image editor.');
             }}
             onAddText={(pos) => {
               const {x: ox, y: oy} = pos.originPosition;
@@ -247,6 +305,9 @@ stories.add('Events', () => {
                 all_objects
               });
             }}
+            onTextEditing={() => {
+              console.log('textediting....');
+            }}
             onUndoStackChanged={(props) => {
               console.log(props, 'onUndoStackChanged');
             }}
@@ -257,21 +318,43 @@ stories.add('Events', () => {
               console.log(props.type);
               console.log(props.id);
               let all_objects = thi.state.all_objects;
-              if (props.type === 'cropZone') {
-                // for (let i in all_objects) {
-                //   if (all_objects[i].id === props.id) {
-                //     all_objects[i] = props;
-                //   }
-                // }
-              } else {
+              let isExist = false;
+              for (let i in all_objects) {
+                if (all_objects[i].id === props.id) {
+                  isExist = true;
+                  all_objects[i] = props;
+                }
+              }
+              if (!isExist) {
                 all_objects.push(props);
               }
               thi.setState({
                 all_objects
               });
             }}
-            onObjectScale={(props) => {
+            onObjectScaled={(props) => {
               console.log(props, 'object scaled...');
+              console.log(props.type);
+              const all_objects = thi.state.all_objects;
+              for (let i in all_objects) {
+                if (all_objects[i].id === props.id) {
+                  const positions = this.imageEditor.getObjectPosition(props.id, 'left', 'top');
+                  console.log(positions, 'positions');
+                  /*console.log(this.imageEditor.getObjectPosition(props.id, 'left', 'top'), 'scaled object props');*/
+                  let newProps = props;
+                  console.log(newProps, 'newProps...');
+                  newProps.left = positions.x + (props.left / 2);
+                  newProps.top = positions.y + (props.top / 2);
+                  all_objects[i] = newProps;
+                }
+              }
+              thi.setState({
+                all_objects
+              });
+            }}
+
+            onRedoStackChanged={(length) => {
+              console.log(length);
             }}
           />
           <div>
