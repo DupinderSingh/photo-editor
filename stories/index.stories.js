@@ -313,11 +313,15 @@ stories.add('Events', () => {
             }}
             onObjectActivated={(props) => {
               // some cases like cropping the object we need to update the item here..
-              console.log('object activated...');
+              console.log(props, 'object activated...');
               console.log(props);
               console.log(props.type);
               console.log(props.id);
               let all_objects = thi.state.all_objects;
+              const positions = this.imageEditor.getObjectPosition(props.id, 'left', 'top');
+              props.left = positions.x + (props.width / 2);
+              props.top = positions.y + (props.height / 2);
+              console.log(props.left)
               let isExist = false;
               for (let i in all_objects) {
                 if (all_objects[i].id === props.id) {
@@ -342,9 +346,9 @@ stories.add('Events', () => {
                   console.log(positions, 'positions');
                   /*console.log(this.imageEditor.getObjectPosition(props.id, 'left', 'top'), 'scaled object props');*/
                   let newProps = props;
+                  newProps.left = positions.x + (props.width / 2);
+                  newProps.top = positions.y + (props.height / 2);
                   console.log(newProps, 'newProps...');
-                  newProps.left = positions.x + (props.left / 2);
-                  newProps.top = positions.y + (props.top / 2);
                   all_objects[i] = newProps;
                 }
               }
