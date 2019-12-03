@@ -17,13 +17,13 @@ const props = {
     },
     initMenu: 'shape',
     uiSize: {
-      height: '700px', // frame size
-      width: '1000px'
+      height: '803px', // frame size
+      width: '1125px'
     },
-    menuBarPosition: 'bottom'
+    menuBarPosition: 'left'
   },
-  cssMaxWidth: 575, // image size
-  cssMaxHeight: 575,
+  cssMaxWidth: 1125, // image size
+  cssMaxHeight: 803
 };
 // "frameRatio":"(0.0, 0.0, 0.5,0.7)",
 //   "positionRatio":"(0.75, 0.65)"
@@ -34,7 +34,6 @@ const props = {
 // 350, 490
 // 525, 455
 //
-
 
 
 let thi = null;
@@ -94,7 +93,6 @@ stories.add('Using Method', () => {
     getTriangle() {
       // "frameRatio":"(0.0, 0.0, 0.5,0.7)",
 //   "positionRatio":"(0.75, 0.65)"
-
       // const imageWidth = 350,
       // const imageHeight = 350;
       const imageCenterXCordinates = 0.75;
@@ -108,10 +106,10 @@ stories.add('Using Method', () => {
         fill: 'red',
         stroke: 'blue',
         strokeWidth: 3,
-        width: 287.5,
-        height: 402.5,
-        left: 431.25,
-        top: 373.75,
+        width: 562.5,
+        height: 562.1,
+        left: 843.75,
+        top: 521.95,
         isRegular: true
       });
     }
@@ -374,7 +372,7 @@ stories.add('Events', () => {
                   console.log(newProps, 'newProps...');
                   let shapeLeft = newProps.left - (newProps.width / 2); // object left
                   let shapeTop = newProps.top - (newProps.height / 2); // object top
-                  console.log(shapeLeft, "shapeLeft", shapeTop, "shapeTop");
+                  console.log(shapeLeft, 'shapeLeft', shapeTop, 'shapeTop');
                   all_objects[i] = newProps;
                 }
               }
