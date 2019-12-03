@@ -15,20 +15,27 @@ const props = {
       path: 'img/sampleImage2.png',
       name: 'sampleImage2'
     },
-    theme: {
-      'common.backgroundImage': 'none',
-      'common.backgroundColor': '#1e1e1e',
-      'common.border': '0px'
-    },
     initMenu: 'shape',
     uiSize: {
       height: '700px', // frame size
       width: '1000px'
-    }
+    },
+    menuBarPosition: 'bottom'
   },
-  cssMaxWidth: 700, // image size
-  cssMaxHeight: 500
+  cssMaxWidth: 575, // image size
+  cssMaxHeight: 575,
 };
+// "frameRatio":"(0.0, 0.0, 0.5,0.7)",
+//   "positionRatio":"(0.75, 0.65)"
+
+// 287.5, 402.5
+// 431.25, 373.75
+
+// 350, 490
+// 525, 455
+//
+
+
 
 let thi = null;
 
@@ -85,16 +92,28 @@ stories.add('Using Method', () => {
     }
 
     getTriangle() {
-      // this.imageEditor.addShape('rect', {
-      //   fill: 'red',
-      //   stroke: 'blue',
-      //   strokeWidth: 3,
-      //   width: 100,
-      //   height: 200,
-      //   left: 10,
-      //   top: 10,
-      //   isRegular: true
-      // });
+      // "frameRatio":"(0.0, 0.0, 0.5,0.7)",
+//   "positionRatio":"(0.75, 0.65)"
+
+      // const imageWidth = 350,
+      // const imageHeight = 350;
+      const imageCenterXCordinates = 0.75;
+      const imageCenterYCordinates = 0.65;
+      const imageWidth = 525;
+      const imageHeight = 325;
+      const imageLeft = (imageWidth / 2) - imageCenterXCordinates;
+      const imageTop = (imageHeight / 2) - imageCenterYCordinates;
+      console.log(imageLeft, imageTop, 'imageleft.... imagetop....');
+      this.imageEditor.addShape('rect', {
+        fill: 'red',
+        stroke: 'blue',
+        strokeWidth: 3,
+        width: 287.5,
+        height: 402.5,
+        left: 431.25,
+        top: 373.75,
+        isRegular: true
+      });
     }
 
     getImageObject() {
@@ -236,6 +255,10 @@ stories.add('Events', () => {
       }, 2000);
     }
 
+    getThePosition() {
+      525, 325;
+    }
+
     uploadPic(e, removePic) {
       e.preventDefault();
       const target = e.target;
@@ -321,7 +344,7 @@ stories.add('Events', () => {
               const positions = this.imageEditor.getObjectPosition(props.id, 'left', 'top');
               props.left = positions.x + (props.width / 2);
               props.top = positions.y + (props.height / 2);
-              console.log(props.left)
+              console.log(props.left);
               let isExist = false;
               for (let i in all_objects) {
                 if (all_objects[i].id === props.id) {
@@ -349,6 +372,9 @@ stories.add('Events', () => {
                   newProps.left = positions.x + (props.width / 2);
                   newProps.top = positions.y + (props.height / 2);
                   console.log(newProps, 'newProps...');
+                  let shapeLeft = newProps.left - (newProps.width / 2); // object left
+                  let shapeTop = newProps.top - (newProps.height / 2); // object top
+                  console.log(shapeLeft, "shapeLeft", shapeTop, "shapeTop");
                   all_objects[i] = newProps;
                 }
               }
