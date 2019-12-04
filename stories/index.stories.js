@@ -290,8 +290,8 @@ stories.add('Events', () => {
           switch (ext) {
             case 'jpg':
               return this.imageEditor.loadImageFromFile(photo).then(result => {
-                console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
-                console.log('new : ' + result.newWidth + ', ' + result.newHeight);
+                console.log('old : ' + result.oldWidth + ', ' + result.oldHeight); // old frame size
+                console.log('new : ' + result.newWidth + ', ' + result.newHeight); // new frame size
               });
             case 'jpeg':
               return this.imageEditor.loadImageFromFile(photo).then(result => {

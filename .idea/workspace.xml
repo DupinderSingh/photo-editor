@@ -23,7 +23,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../honey_latest/honeycomb" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../meme-web" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.jscs" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -61,7 +61,10 @@
       <workItem from="1574936864701" duration="2306000" />
       <workItem from="1575003347944" duration="17050000" />
       <workItem from="1575262066568" duration="23764000" />
-      <workItem from="1575348502198" duration="16474000" />
+      <workItem from="1575348502198" duration="16756000" />
+      <workItem from="1575433508851" duration="760000" />
+      <workItem from="1575435587309" duration="33000" />
+      <workItem from="1575443461723" duration="2293000" />
     </task>
     <servers />
   </component>
