@@ -20,10 +20,10 @@ const props = {
       height: '803px', // frame size
       width: '1125px'
     },
-    menuBarPosition: 'left'
+    menuBarPosition: 'right'
   },
-  cssMaxWidth: 1125, // image size
-  cssMaxHeight: 803
+  cssMaxWidth: 725, // image size
+  cssMaxHeight: 725
 };
 // "frameRatio":"(0.0, 0.0, 0.5,0.7)",
 //   "positionRatio":"(0.75, 0.65)"
@@ -257,7 +257,25 @@ stories.add('Events', () => {
       525, 325;
     }
 
-    uploadPic(e, removePic) {
+    uploadimageviaLink() {
+      var tenure = prompt("Please enter url link");
+      if (tenure != null && tenure !== "") {
+        this.imageEditor.loadImageFromURL(tenure, 'upload-image-via-link').then(result => {
+     console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
+     console.log('new : ' + result.newWidth + ', ' + result.newHeight);
+})
+.catch((err) => {alert('error')})
+    }
+    else {
+     // user cancelled
+     if (tenure === "") {
+       alert("this field is required");
+       this.uploadimageviaLink();
+     }
+    }
+  }
+
+    uploadPic(e, removePic) { // also add photo to result
       e.preventDefault();
       const target = e.target;
       if (removePic) {
@@ -282,13 +300,12 @@ stories.add('Events', () => {
               });
             case 'png':
               console.log(target.value, 'path to image....');
-              return this.imageEditor.addImageObject(target.value).then(objectProps => {
-                console.log(objectProps.id);
-              });
-            // return this.imageEditor.loadImageFromFile(photo).then(result => {
-            //   console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
-            //   console.log('new : ' + result.newWidth + ', ' + result.newHeight);
-            // });
+              // return this.imageEditor.addImageObject(target.value).then(objectProps => {
+              //   console.log(objectProps.id);
+              // });
+            return this.imageEditor.loadImageFromFile(photo).then(result => {
+              console.log(result, "resu");
+            });
             default:
               alert('Only png, jpg, jpeg files supported.');
           }
@@ -392,7 +409,7 @@ stories.add('Events', () => {
                    className="outline_field_button">Upload image via file
             </label>
           </div>
-          <button>
+          <button onClick={this.uploadimageviaLink.bind(this)}>
             Upload Image via link
           </button>
         </>
