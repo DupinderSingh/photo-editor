@@ -5,7 +5,8 @@
   "main": "dist/toastui-react-image-editor.js",
   "files": [
     "dist",
-    "src"
+    "src",
+    "public"
   ],
   "scripts": {
     "build:dev": "webpack --mode development",

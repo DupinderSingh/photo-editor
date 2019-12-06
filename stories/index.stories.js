@@ -1,14 +1,10 @@
 import React from 'react';
 import {storiesOf} from '@storybook/react';
-
 import 'tui-image-editor/dist/tui-image-editor.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
-
 import ImageEditor from '../src/index';
 import {checkValidation} from '../src/actions/actionjs';
-
 const stories = storiesOf('Toast UI ImageEditor', module);
-
 const props = {
   includeUI: {
     loadImage: {
@@ -20,7 +16,7 @@ const props = {
       height: '803px', // frame size
       width: '1125px'
     },
-    menuBarPosition: 'right'
+    menuBarPosition: 'bottom'
   },
   cssMaxWidth: 725, // image size
   cssMaxHeight: 725
@@ -38,148 +34,9 @@ const props = {
 
 let thi = null;
 
-stories.add('Include default UI', () => <ImageEditor {...props} />);
-
-stories.add('Using Method', () => {
-  class Story extends React.Component {
-    ref = React.createRef();
-
-    imageEditor = null;
-
-    componentDidMount() {
-      // id="tie-btn-mask"
-      thi = this;
-      this.imageEditor = this.ref.current.getInstance();
-      // get the data from api and set to the editor. // get all the "type" match variable and load one by one onto the editor.
-      window.setTimeout(() => {
-        // check for every object and according to it set the function..... eg addShape for square, rect. addImage for image.....
-        this.imageEditor.addShape('rect', {
-          id: 100,
-          fill: 'red',
-          stroke: 'blue',
-          strokeWidth: 3,
-          left: 361.4519145865762,
-          top: 608.8242590157134,
-          width: 132.37659746491698,
-          height: 160.17710639972515,
-          isRegular: true
-        });
-
-        // this.imageEditor.addImageObject('https://expresswriters.com/wp-content/uploads/2015/09/google-new-logo-1200x423.jpg').then(objectProps => {
-        //   // const props = this.imageEditor.getObjectProperties(objectProps.id);
-        //   // console.log(objectProps, "image>>>>>>>>>>>>>>... id>>>>>>>>>"+objectProps.id);
-        //
-        //   var position = this.imageEditor.getObjectPosition(objectProps.id);
-        //   console.log(position);
-        // });
+//stories.add('Include default UI', () => <ImageEditor {...props} />);
 
 
-        // let getPosition = this.imageEditor.getObjectPosition(100, 'left', 'top');
-        // console.log(getPosition, "getPosition")
-        console.log('we got triangl3e...');
-        // this.imageEditor.setDrawingShape('triangle', { // When resizing, the shape keep the 1:1 ratio
-        //   width: 100,
-        //   height: 100,
-        //   isRegular: true
-        // });
-        console.log(this.imageEditor, 'imageeditor..');
-        this.imageEditor.startDrawingMode('FREE_DRAWING', {
-          width: 10,
-          color: 'rgba(255,0,0,0.5)'
-        });
-      }, 2000);
-    }
-
-    getTriangle() {
-      // "frameRatio":"(0.0, 0.0, 0.5,0.7)",
-//   "positionRatio":"(0.75, 0.65)"
-      // const imageWidth = 350,
-      // const imageHeight = 350;
-      const imageCenterXCordinates = 0.75;
-      const imageCenterYCordinates = 0.65;
-      const imageWidth = 525;
-      const imageHeight = 325;
-      const imageLeft = (imageWidth / 2) - imageCenterXCordinates;
-      const imageTop = (imageHeight / 2) - imageCenterYCordinates;
-      console.log(imageLeft, imageTop, 'imageleft.... imagetop....');
-      this.imageEditor.addShape('rect', {
-        fill: 'red',
-        stroke: 'blue',
-        strokeWidth: 3,
-        width: 562.5,
-        height: 562.1,
-        left: 843.75,
-        top: 521.95,
-        isRegular: true
-      });
-    }
-
-    getImageObject() {
-      const all_objects = thi.state.all_objects;
-      for (let i in all_objects) {
-        if (all_objects[i].type === 'image') {
-          // const props = this.imageEditor.getObjectProperties(all_objects[i].id);
-          // console.log(props, "image>>>>>>>>>>>>>>... id>>>>>>>>>"+all_objects[i].id);
-          // var position = imageEditor.getObjectPosition(, 'left', 'top');
-          // console.log(position);
-        }
-      }
-    }
-
-    flipImageByAxis(isXAxis) {
-      this.imageEditor[isXAxis ? 'flipX' : 'flipY']()
-        .then((status) => {
-          console.log('flipX: ', status.flipX);
-          console.log('flipY: ', status.flipY);
-          console.log('angle: ', status.angle);
-        })
-        ['catch']((message) => {
-        console.log('error: ', message);
-      });
-    }
-
-    render() {
-      // resizing the editor...
-      // // Change the image size and ui size, and change the affected ui state together.
-      // imageEditor.ui.resizeEditor({
-      //   imageSize: {oldWidth: 100, oldHeight: 100, newWidth: 700, newHeight: 700},
-      //   uiSize: {width: 1000, height: 1000}
-      // });
-      //
-      // // Apply the ui state while preserving the previous attribute (for example, if responsive UI)
-      // imageEditor.ui.resizeEditor();
-
-      return (
-        <>
-          <ImageEditor ref={this.ref} {...props} />
-          <button
-            onClick={this.getTriangle.bind(this)}>
-            get me rect
-          </button>
-          <button
-            onClick={() => {
-              this.flipImageByAxis(true);
-            }}
-          >
-            Flip-X!
-          </button>
-          <button
-            onClick={() => {
-              this.flipImageByAxis(false);
-            }}
-          >
-            Flip-Y!
-          </button>
-          <button onClick={() => this.getImageObject.bind(this)}>
-            get image props
-          </button>
-        </>
-      );
-    }
-  }
-
-  return <Story/>;
-});
 
 stories.add('Events', () => {
   class Story2 extends React.Component {
@@ -197,6 +54,9 @@ stories.add('Events', () => {
     componentDidMount() {
       thi = this;
       this.imageEditor = this.ref.current.getInstance();
+
+
+
       console.log(document.getElementsByClassName('tui-image-editor-header-logo')[0], 'textt');
       document.getElementsByClassName('tui-image-editor-header-logo')[0].style.display = 'none';
       console.log(document.getElementById('tie-btn-mask'), 'mask');
@@ -211,9 +71,21 @@ stories.add('Events', () => {
         width: 100,
         height: 100,
         isRegular: true
-      });
+      });   
+    
+
+
 
       window.setTimeout(() => {
+
+    
+        this.imageEditor.loadImageFromURL("https://cors-anywhere.herokuapp.com/https://www.solidbackgrounds.com/images/950x350/950x350-white-solid-color-background.jpg", 'white').then(result => {
+          this.imageEditor.applyFilter('blendColor',{'color':'#515ce6'});
+          console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
+          console.log('new : ' + result.newWidth + ', ' + result.newHeight);
+     })
+
+ 
         // const imageWidth = 400;
         // const imageHeight = 500;
         const imageWidth = 132.37659746491698;
@@ -251,6 +123,9 @@ stories.add('Events', () => {
         console.log((Math.floor(frameCenterXCordinates * 100) / 100), (Math.floor(frameCenterYCordinates * 100) / 100), 'center coordinates from frame...');
         console.log(this.imageEditor.getCanvasSize(), 'get canvas size....');
       }, 2000);
+
+     
+
     }
 
     getThePosition() {
