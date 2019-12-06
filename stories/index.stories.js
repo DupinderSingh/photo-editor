@@ -4,11 +4,12 @@ import 'tui-image-editor/dist/tui-image-editor.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import ImageEditor from '../src/index';
 import {checkValidation} from '../src/actions/actionjs';
+
 const stories = storiesOf('Toast UI ImageEditor', module);
 const props = {
   includeUI: {
     loadImage: {
-      path: 'img/sampleImage2.png',
+      path: 'https://cors-anywhere.herokuapp.com/https://www.bigfootdigital.co.uk/wp-content/uploads/2017/09/Loading-Please-Wait-Written-on-Blackboard.jpg',
       name: 'sampleImage2'
     },
     initMenu: 'shape',
@@ -37,7 +38,6 @@ let thi = null;
 //stories.add('Include default UI', () => <ImageEditor {...props} />);
 
 
-
 stories.add('Events', () => {
   class Story2 extends React.Component {
     ref = React.createRef();
@@ -51,12 +51,20 @@ stories.add('Events', () => {
       };
     }
 
+    getCookie(name) {
+      var nameEQ = name + '=';
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+
     componentDidMount() {
       thi = this;
       this.imageEditor = this.ref.current.getInstance();
-
-
-
       console.log(document.getElementsByClassName('tui-image-editor-header-logo')[0], 'textt');
       document.getElementsByClassName('tui-image-editor-header-logo')[0].style.display = 'none';
       console.log(document.getElementById('tie-btn-mask'), 'mask');
@@ -71,84 +79,98 @@ stories.add('Events', () => {
         width: 100,
         height: 100,
         isRegular: true
-      });   
-    
-
-
-
+      });
       window.setTimeout(() => {
+        const backgroundType = this.getCookie('backgroundType');
+        const background = this.getCookie('background');
+        if (!!backgroundType && !!background) {
+          if (backgroundType === 'color') {
+            this.imageEditor.loadImageFromURL('https://cors-anywhere.herokuapp.com/https://www.solidbackgrounds.com/images/950x350/950x350-white-solid-color-background.jpg', 'white').then(result => {
+              this.imageEditor.applyFilter('blendColor', {'color': background});
+              console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
+              console.log('new : ' + result.newWidth + ', ' + result.newHeight);
+            });
+          } else {
+            this.imageEditor.loadImageFromURL('https://cors-anywhere.herokuapp.com/https://beautybid.iapplabz.co.in/uploads/' + background, background).then(result => {
+              //   this.imageEditor.applyFilter('blendColor',{'color': background});
+              //   console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
+              //   console.log('new : ' + result.newWidth + ', ' + result.newHeight);
+            });
+          }
+        }
 
-    
-        this.imageEditor.loadImageFromURL("https://cors-anywhere.herokuapp.com/https://www.solidbackgrounds.com/images/950x350/950x350-white-solid-color-background.jpg", 'white').then(result => {
-          this.imageEditor.applyFilter('blendColor',{'color':'#515ce6'});
-          console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
-          console.log('new : ' + result.newWidth + ', ' + result.newHeight);
-     })
+        this.imageEditor.addText('Welcome to Meme editor', {
+          styles: {
+            fill: '#000',
+            fontSize: 20,
+            fontWeight: 'bold'
+          },
+          position: {
+            x: 10,
+            y: 10
+          }
+        }).then(objectProps => {
+          console.log(objectProps.id);
+        });
 
- 
-        // const imageWidth = 400;
-        // const imageHeight = 500;
-        const imageWidth = 132.37659746491698;
-        const imageHeight = 160.17710639972515;
-        const frameWidth = 600;
-        const frameHeight = 550;
-
-        const widthRatioFrameWrtImage = imageWidth / frameWidth;
-        const heightRatioFrameWrtImage = imageHeight / frameHeight;
-        console.log((Math.floor(widthRatioFrameWrtImage * 100) / 100), (Math.floor(heightRatioFrameWrtImage * 100) / 100), 'frame ratio wrt image....');
-
-        // getting the centered position...... from image
-
-        // y coordinates = topHeight + (imageHeight / 2);
-        // x coordinates = leftWidth + (imageWidth / 2);
-
-        // const imageLeft = this.imageEditor._graphics.canvasImage.left;
-        // const imageTop = this.imageEditor._graphics.canvasImage.top;
-        const imageLeft = 361.4519145865762;
-        const imageTop = 608.8242590157134;
-
-        console.log(this.imageEditor._graphics, 'graphics....');
-        const imageCenterYCordinates = imageTop + (imageHeight / 2);
-        const imageCenterXCordinates = imageLeft + (imageWidth / 2);
-
-        const centerCordinatesFromCenterOfImage = imageCenterXCordinates / imageCenterYCordinates;
-        console.log((Math.floor(centerCordinatesFromCenterOfImage * 100) / 100), 'center coordinates from image...');
-
-        // ---------------------------------------------------------------
-        // getting the centered position...... from frame
-
-        const frameCenterYCordinates = imageCenterYCordinates / frameHeight;
-        const frameCenterXCordinates = imageCenterXCordinates / frameWidth;
-
-        console.log((Math.floor(frameCenterXCordinates * 100) / 100), (Math.floor(frameCenterYCordinates * 100) / 100), 'center coordinates from frame...');
-        console.log(this.imageEditor.getCanvasSize(), 'get canvas size....');
+       // // const imageWidth = 400;
+        //// const imageHeight = 500;
+        // const imageWidth = 132.37659746491698;
+        // const imageHeight = 160.17710639972515;
+        // const frameWidth = 600;
+        // const frameHeight = 550;
+        //
+        // const widthRatioFrameWrtImage = imageWidth / frameWidth;
+        // const heightRatioFrameWrtImage = imageHeight / frameHeight;
+        // console.log((Math.floor(widthRatioFrameWrtImage * 100) / 100), (Math.floor(heightRatioFrameWrtImage * 100) / 100), 'frame ratio wrt image....');
+        //
+        // // getting the centered position...... from image
+        //
+        // // y coordinates = topHeight + (imageHeight / 2);
+        // // x coordinates = leftWidth + (imageWidth / 2);
+        //
+        // // const imageLeft = this.imageEditor._graphics.canvasImage.left;
+        // // const imageTop = this.imageEditor._graphics.canvasImage.top;
+        // const imageLeft = 361.4519145865762;
+        // const imageTop = 608.8242590157134;
+        //
+        // console.log(this.imageEditor._graphics, 'graphics....');
+        // const imageCenterYCordinates = imageTop + (imageHeight / 2);
+        // const imageCenterXCordinates = imageLeft + (imageWidth / 2);
+        //
+        // const centerCordinatesFromCenterOfImage = imageCenterXCordinates / imageCenterYCordinates;
+        // console.log((Math.floor(centerCordinatesFromCenterOfImage * 100) / 100), 'center coordinates from image...');
+        //
+        // // ---------------------------------------------------------------
+        // // getting the centered position...... from frame
+        //
+        // const frameCenterYCordinates = imageCenterYCordinates / frameHeight;
+        // const frameCenterXCordinates = imageCenterXCordinates / frameWidth;
+        //
+        // console.log((Math.floor(frameCenterXCordinates * 100) / 100), (Math.floor(frameCenterYCordinates * 100) / 100), 'center coordinates from frame...');
+        // console.log(this.imageEditor.getCanvasSize(), 'get canvas size....');
       }, 2000);
 
-     
-
-    }
-
-    getThePosition() {
-      525, 325;
     }
 
     uploadimageviaLink() {
-      var tenure = prompt("Please enter url link");
-      if (tenure != null && tenure !== "") {
+      var tenure = prompt('Please enter url link');
+      if (tenure != null && tenure !== '') {
         this.imageEditor.loadImageFromURL(tenure, 'upload-image-via-link').then(result => {
-     console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
-     console.log('new : ' + result.newWidth + ', ' + result.newHeight);
-})
-.catch((err) => {alert('error')})
+          console.log('old : ' + result.oldWidth + ', ' + result.oldHeight);
+          console.log('new : ' + result.newWidth + ', ' + result.newHeight);
+        })
+          .catch((err) => {
+            alert('error');
+          });
+      } else {
+        // user cancelled
+        if (tenure === '') {
+          alert('this field is required');
+          this.uploadimageviaLink();
+        }
+      }
     }
-    else {
-     // user cancelled
-     if (tenure === "") {
-       alert("this field is required");
-       this.uploadimageviaLink();
-     }
-    }
-  }
 
     uploadPic(e, removePic) { // also add photo to result
       e.preventDefault();
@@ -178,9 +200,9 @@ stories.add('Events', () => {
               // return this.imageEditor.addImageObject(target.value).then(objectProps => {
               //   console.log(objectProps.id);
               // });
-            return this.imageEditor.loadImageFromFile(photo).then(result => {
-              console.log(result, "resu");
-            });
+              return this.imageEditor.loadImageFromFile(photo).then(result => {
+                console.log(result, 'resu');
+              });
             default:
               alert('Only png, jpg, jpeg files supported.');
           }

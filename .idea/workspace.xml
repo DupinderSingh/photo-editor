@@ -2,7 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c837e866-7afc-433f-a4f4-e510b2bcb5a1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/images/3-dots.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/app-store.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/box-img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/box-img2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/g-play.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/pattern0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/pattern1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/pattern2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/pattern3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/pattern4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/pattern5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/pattern6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stories/img/white.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stories/index.stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/stories/index.stories.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,7 +39,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../meme-web" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/stories/img" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.jscs" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -34,6 +50,12 @@
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript.Bower" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/stories/img" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">

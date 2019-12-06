@@ -12,7 +12,8 @@
     "build:dev": "webpack --mode development",
     "build": "webpack --mode production",
     "serve": "webpack-dev-server",
-    "storybook": "start-storybook -s ./node_modules/tui-image-editor/dist/svg,.storybook -p 6006",
+    "storybook": "start-storybook -s ./node_modules/tui-image-editor/dist/svg,.storybook -p 3001",
+
     "build-storybook": "build-storybook"
   },
   "author": "Dupinder",
